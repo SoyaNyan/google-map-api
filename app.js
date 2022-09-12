@@ -2,10 +2,10 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { readFileSync } from 'fs'
-import path from 'path'
 
 // swagger
 import swaggerUi from 'swagger-ui-express'
+import { SwaggerTheme } from 'swagger-themes'
 // import swaggerOutput from './swagger/swagger-output.json' assert { type: 'json' }
 const swaggerOutput = JSON.parse(readFileSync('./swagger/swagger-output.json'))
 
@@ -26,17 +26,14 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-/**
- * swagger theme stylesheets
- * node_modules/swagger-ui-express/index.js
- */
-app.use(
-	'/swagger-themes',
-	express.static(path.resolve('./node_modules/swagger-ui-themes/themes/3.x'))
-)
+// swagger ui theme
+const theme = new SwaggerTheme('v3')
+const options = {
+	customCss: theme.getBuffer('dark'),
+}
 
 // swagger router
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOutput))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOutput, options))
 
 // api router
 app.use('/api', apiRouter)
