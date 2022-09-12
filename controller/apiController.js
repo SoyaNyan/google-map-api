@@ -13,12 +13,15 @@ const placeIdController = async (req, res) => {
 	// decode url
 	const decodedUrl = decodeURI(url)
 
-	// logger
-	logger.info(`[API Request] placeid request > url::${decodedUrl}`)
-
 	// get name
 	const urlPrefix = 'https://www.google.com/maps/place/'
 	const placeName = decodedUrl.replace(urlPrefix, '').split('/')[0].replaceAll('+', ' ')
+
+	// log url
+	const logUrl = `${urlPrefix}${decodedUrl.replace(urlPrefix, '').split('/')[0]}/`
+
+	// logger
+	logger.info(`[API Request] placeid request > url::${logUrl}`)
 
 	// get placeid
 	const placeId = await getPlaceId(placeName)
@@ -37,10 +40,10 @@ const placeIdController = async (req, res) => {
 	}
 
 	// set cache
-	await setCache(`placeid::${decodedUrl}`, placeId)
+	await setCache(`placeid::${logUrl}`, placeId)
 
 	// logger
-	logger.info(`[Redis] placeid cache created > url::${decodedUrl}`)
+	logger.info(`[Redis] placeid cache created > url::${logUrl}`)
 
 	// return result
 	res.status(200).json({
@@ -98,8 +101,12 @@ const placeDataController = async (req, res) => {
 	// decode url
 	const decodedUrl = decodeURI(url)
 
+	// log url
+	const urlPrefix = 'https://www.google.com/maps/place/'
+	const logUrl = `${urlPrefix}${decodedUrl.replace(urlPrefix, '').split('/')[0]}/`
+
 	// logger
-	logger.info(`[API Request] placedata request > url::${decodedUrl}`)
+	logger.info(`[API Request] placedata request > url::${logUrl}`)
 
 	// get place data
 	const data = await getPlaceData(decodedUrl)
@@ -118,10 +125,10 @@ const placeDataController = async (req, res) => {
 	}
 
 	// set cache
-	await setCache(`placedata::${decodedUrl}`, data)
+	await setCache(`placedata::${logUrl}`, data)
 
 	// logger
-	logger.info(`[Redis] placedata cache created > url::${decodedUrl}`)
+	logger.info(`[Redis] placedata cache created > url::${logUrl}`)
 
 	// return result
 	res.status(200).json({

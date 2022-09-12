@@ -20,8 +20,11 @@ const checkPlaceIdChace = async (req, res, next) => {
 		res.status(400).send('400 Bad request.')
 	}
 
+	// log url
+	const logUrl = `${urlPrefix}${decodedUrl.replace(urlPrefix, '').split('/')[0]}/`
+
 	// get cached data
-	const cachedData = await getCache(`placeid::${decodedUrl}`)
+	const cachedData = await getCache(`placeid::${logUrl}`)
 
 	// check cache
 	if (!cachedData) {
@@ -29,7 +32,7 @@ const checkPlaceIdChace = async (req, res, next) => {
 		next()
 	} else {
 		// logger
-		logger.info(`[Redis] placeid cache hit > url::${decodedUrl}`)
+		logger.info(`[Redis] placeid cache hit > url::${logUrl}`)
 
 		// cache hit
 		res.status(200).json({
@@ -90,8 +93,11 @@ const checkPlaceDataChace = async (req, res, next) => {
 		res.status(400).send('400 Bad request.')
 	}
 
+	// log url
+	const logUrl = `${urlPrefix}${decodedUrl.replace(urlPrefix, '').split('/')[0]}/`
+
 	// get cached data
-	const cachedData = await getCache(`placedata::${decodedUrl}`)
+	const cachedData = await getCache(`placedata::${logUrl}`)
 
 	// check cache
 	if (!cachedData) {
@@ -99,7 +105,7 @@ const checkPlaceDataChace = async (req, res, next) => {
 		next()
 	} else {
 		// logger
-		logger.info(`[Redis] placedata cache hit > url::${decodedUrl}`)
+		logger.info(`[Redis] placedata cache hit > url::${logUrl}`)
 
 		// cache hit
 		res.status(200).json({
