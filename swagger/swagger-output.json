@@ -1,0 +1,85 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "Google Map Place Detail API",
+		"description": "Api helps fetching place detail info from google map."
+	},
+	"host": "localhost:7767",
+	"basePath": "/",
+	"schemes": ["http"],
+	"paths": {
+		"/api/placeid": {
+			"get": {
+				"tags": ["PlaceAPI"],
+				"description": "get placeid from google map url",
+				"parameters": [
+					{
+						"name": "url",
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"400": {
+						"description": "Bad Request"
+					}
+				}
+			}
+		},
+		"/api/placeinfo": {
+			"get": {
+				"tags": ["PlaceAPI"],
+				"description": "get place detail info using PlaceAPI",
+				"parameters": [
+					{
+						"name": "place_id",
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"400": {
+						"description": "Bad Request"
+					}
+				}
+			}
+		},
+		"/api/placedata": {
+			"get": {
+				"tags": ["PlaceAPI"],
+				"description": "get place data from google map url",
+				"parameters": [
+					{
+						"name": "url",
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"400": {
+						"description": "Bad Request"
+					}
+				}
+			}
+		}
+	},
+	"swaggerDefinition": {
+		"info": {
+			"title": "GoogleMap Place Detail API",
+			"version": "1.0.0",
+			"description": "Place detail api for google map dev."
+		},
+		"host": "localhost:7767",
+		"schemes": ["http"]
+	}
+}
